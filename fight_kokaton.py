@@ -153,7 +153,6 @@ class Score:
         screen.blit(self.img, (100, HEIGHT-50))
 
 
-
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))    
@@ -166,13 +165,15 @@ def main():
     clock = pg.time.Clock()
     tmr = 0
     score_num = 0
+    multibeam = []
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 return
             if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
                 # スペースキー押下でBeamクラスのインスタンス生成
-                beam = Beam(bird)            
+                beam = Beam(bird)   
+                multibeam.append(beam)    
         screen.blit(bg_img, [0, 0])
         
         for bomb in bombs:
@@ -187,12 +188,13 @@ def main():
                 return
             
         for i in range(len(bombs)):
-            if beam is not None:         
-                if bombs[i].rct.colliderect(beam.rct):
-                    bombs[i] = None
-                    beam = None
-                    bird.change_img(6, screen)
-                    score_num += 1
+            for h in range(len(multibeam)):
+                if multibeam[h] is not None:         
+                    if bombs[i].rct.colliderect(beam.rct):
+                        bombs[i] = None
+                        multibeam[h] = None
+                        bird.change_img(6, screen)
+                        score_num += 1
         bombs = [bomb for bomb in bombs if bomb is not None]
 
         key_lst = pg.key.get_pressed()
