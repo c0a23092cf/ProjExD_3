@@ -147,10 +147,11 @@ class Score:
         self.fonto = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)
         score_num = 0
         self.img = self.fonto.render("スコア：0", 0, (0, 0, 255))
+        self.zahyou = [100, HEIGHT-50]
 
     def update(self, score_num, screen: pg.Surface):
         self.img = self.fonto.render("スコア：{}".format(score_num), 0, (0, 0, 255))
-        screen.blit(self.img, (100, HEIGHT-50))
+        screen.blit(self.img, self.zahyou)
 
 
 
